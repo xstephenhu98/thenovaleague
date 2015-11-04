@@ -22,6 +22,8 @@ body {
     border-color: transparent;
 }
 
+
+
 .panel {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -133,4 +135,9 @@ body {
 .form-control:focus, .form-control:focus + span .btn{
     outline:0;
     box-shadow: 0 0 8px rgba(82,168,236,.6);
+}
+
+.input-group {
+  background: transparent !important
+  ;
 }

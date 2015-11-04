@@ -22,34 +22,44 @@
           <a class="navbar-brand" href="index.html">Home</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
           
-     
+           <ul class="nav navbar-nav navbar-right">
+            <li><div class="btn-nav"><button type="button" class="btn btn-primary btn-sm navbar-btn" data-toggle="modal" data-target="#signup">SIGN UP</button></div></li>
+        
           </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-  <div class="container theme-showcase" role="main">
-      <div class="row">
-      
-
-      <div class="panel panel-default col-md-3" style="margin: 0 auto">
-      <form name="login" role="form" action="auth.py" method="post">
-                
-                <div class="input-group" style="width:100%;">
+          <form name="login" class="navbar-form navbar-right" role="form" action="index.php" method="post">
+                <div class="input-group input-group-sm">
                 
                 <input type="text" class="form-control" name="username" value="" placeholder="Username">                                        
                 </div>
-                <div class="input-group" style="width:100%;">
+                <div class="input-group input-group-sm">
                 
                 <input type="password" class="form-control" name="password" value="" placeholder="Password">                                        
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;"><span clas="glyphicon glyphicon-ok"><span> Login</button>
+
+                <button type="submit" class="btn btn-default btn-sm navbar-btn" name="submit" value="Submit" href="#">LOGIN</button>
             </form>
-        </div>
+     
+          
+        </div><!--/.nav-collapse -->
+      </div>
+  </nav>
+
+  
+
+  <div class="container theme-showcase" role="main">
+      
+      
+
         
+
+
+
+        
+
       
     </div>
+
 
   
   <!-- Optional theme -->

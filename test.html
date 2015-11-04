@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+ 
+</body>
+<script type="text/javascript">
+    var theURL = "https://online-go.com/api/v1/players/444";
+    var xmlHTTP = new XMLHttpRequest();
+    xmlHTTP.open("GET", theURL, false);
+    xmlHTTP.send(null);
+    var r = JSON.parse(xmlHTTP.responseText);
+
+    console.log(r.ranking)
+
+
+</script>
+</html>
