@@ -40,23 +40,23 @@
       
 
        <div class="panel panel-default col-md-3" style="margin: 0 auto">
-       <form name="signup" role="form" action="menu.php" method="post">
+       <form name="signup" role="form" action="signup.php" method="post">
                  
                  <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="username" value="" placeholder="Username">                                        
+                 <input type="text" class="form-control" name="username" id="username" value="" placeholder="Username">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="password" class="form-control" name="password" value="" placeholder="Password">                                        
+                 <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="password" class="form-control" name="password-repeat" value="" placeholder="Repeat Password">                                      
+                 <input type="password" class="form-control" name="password-repeat" id="password-repeat" value="" placeholder="Repeat Password">                                      
                  </div>
                  <br>
 
                  <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Your OGS Username" aria-describedby="ogs-import">
+                  <input type="text" class="form-control" name="ogs-userid" id="ogs-userid" placeholder="Your OGS User ID" aria-describedby="ogs-import">
                   <span class="input-group-btn"><button type="button" class="btn btn-success" id="ogs-import" data-toggle="tooltip" data-placement="right" title="" data-original-title="Import" onclick="fetchRank()"><i class="glyphicon glyphicon-import"></i></button></span>
 
 
@@ -65,19 +65,15 @@
                  <br>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="rating" value="" placeholder="Rating" disabled="">                                        
+                 <input type="text" class="form-control" name="rating" id="rating" value="" placeholder="Rating" disabled="">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="rank" value="" placeholder="Rank" disabled="">                                        
+                 <input type="text" class="form-control" name="rank" id="rank" value="" placeholder="Rank" disabled="">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="country" value="" placeholder="Country">                                        
-                 </div>
-
-                 <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="about" value="" placeholder="Bio">                                        
+                 <textarea type="text" class="form-control" name="about" id="about" value="" rows="5" placeholder="About yourself..."></textarea>                                        
                  </div>
 
                  <button type="submit" class="btn btn-primary" style="width:100%;">SIGN UP</button>
@@ -104,13 +100,30 @@ $(document).ready(function() {
 });
 
 function fetchRank(){
-  var theURL = "https://online-go.com/api/v1/players/444";
+  var head = "https://online-go.com/api/v1/players/";
+  var user_id_value = document.getElementById("ogs-userid").value;
+  var theURL = head.concat(user_id_value);
     var xmlHTTP = new XMLHttpRequest();
     xmlHTTP.open("GET", theURL, false);
     xmlHTTP.send(null);
     var r = JSON.parse(xmlHTTP.responseText);
 
-    console.log(r.ranking)
+    var rank = "";
+    if (r.ranking < 30) {
+          rank = (30 - r.ranking) + "k";
+        }
+        else {
+          rank = ((r.ranking - 30) + 1) + "d";
+        }
+    
+    var rating_value = document.getElementById("rating");
+    rating_value.value = r.rating;
+
+    var rank_value = document.getElementById("rank");
+    rank_value.value = rank;
+
+    var about_value = document.getElementById("about");
+    about_value.value = r.about;
 }
 
 </script>
