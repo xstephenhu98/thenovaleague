@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.26)
 # Database: thenovaleague
-# Generation Time: 2015-11-06 14:42:23 +0000
+# Generation Time: 2015-11-06 18:34:45 +0000
 # ************************************************************
 
 
@@ -61,7 +61,7 @@ CREATE TABLE `user` (
   `ogs_userid` int(11) NOT NULL,
   `rating` double NOT NULL,
   `rank` varchar(5) NOT NULL DEFAULT '',
-  `about` varchar(300) DEFAULT NULL,
+  `about` varchar(600) DEFAULT '',
   PRIMARY KEY (`ogs_userid`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

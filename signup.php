@@ -1,20 +1,93 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+  <title>The Nova League</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+ <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">The Nova League</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          
+        <ul class="nav navbar-nav navbar-right">
+            <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="index.html">BACK TO HOME</a></div></li>
+        
+          </ul>
+          
+        </div><!--/.nav-collapse -->
+      </div>
+  </nav>
+
+  
+
+  <div class="container theme-showcase" role="main">
+      <div class="row">
+       <div class="panel panel-default col-md-3" style="margin: 0 auto">
+
 <?php
     if($_POST['submit'] == "Submit") {
 		
 		$errorMessage = "";
 
-		$name = $_POST['item_name'];
-		$price = $_POST['item_price'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$password_repeat = $_POST['password-repeat'];
+		$ogs_userid = $_POST['ogs-userid'];
+		$rating = $_POST['rating'];
+		$rank = $_POST['rank'];
+		$about = $_POST['about'];
 
         
-        //make sure all fields are complete
-		if(empty($name)) {
-			$errorMessage .= "name";
+        //validation
+		if(empty($username)) {
+			$errorMessage .= "username";
   			echo "<div class='alert alert-dismissible alert-danger'>
-  <button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
-  <strong> Oh snap!</strong> You haven't entered the item name!
-</div>";
-
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oh snap!</strong> You didn't choose a username!
+				</div>";
+		}
+		if(empty($password)) {
+			$errorMessage .= "username";
+  			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oh snap!</strong> You didn't set a password!
+				</div>";
+		}
+		if(empty($password_repeat)) {
+			$errorMessage .= "username";
+  			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oh snap!</strong> You didn't repeat the password!
+				</div>";
+		}
+		if(empty($username)) {
+			$errorMessage .= "username";
+  			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oh snap!</strong> You haven't chosen a username!
+				</div>";
+		}
+		if(empty($username)) {
+			$errorMessage .= "username";
+  			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oh snap!</strong> You haven't chosen a username!
+				</div>";
 		}
         if(0 == preg_match("/^\d\d?\.?\d?\d?$/", $price)){
             $errorMessage .= "price";

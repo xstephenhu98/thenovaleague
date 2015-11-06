@@ -54,7 +54,7 @@
                  <input type="password" class="form-control" name="password-repeat" id="password-repeat" value="" placeholder="Repeat Password">                                      
                  </div>
                  <br>
-
+                 <span class="ogs-userid-alert"></span>
                  <div class="input-group">
                   <input type="text" class="form-control" name="ogs-userid" id="ogs-userid" placeholder="Your OGS User ID" aria-describedby="ogs-import">
                   <span class="input-group-btn"><button type="button" class="btn btn-success" id="ogs-import" data-toggle="tooltip" data-placement="right" title="" data-original-title="Import" onclick="fetchRank()"><i class="glyphicon glyphicon-import"></i></button></span>
@@ -104,9 +104,17 @@ function fetchRank(){
   var head = "https://online-go.com/api/v1/players/";
   var user_id_value = document.getElementById("ogs-userid").value;
   var theURL = head.concat(user_id_value);
-    var xmlHTTP = new XMLHttpRequest();
-    xmlHTTP.open("GET", theURL, false);
+  var xmlHTTP = new XMLHttpRequest();
+  
+  xmlHTTP.open("GET", theURL, false);
     xmlHTTP.send(null);
+    
+        if (xmlHTTP.status === 404) {  
+
+            $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  User ID not found!</strong></div>").insertAfter('.ogs-userid-alert');
+            document.getElementById("ogs-userid").value = "";
+            
+        }
     var r = JSON.parse(xmlHTTP.responseText);
 
     var rank = "";
@@ -125,6 +133,7 @@ function fetchRank(){
 
     var about_value = document.getElementById("about");
     about_value.value = r.about;
+
 }
 
 </script>
