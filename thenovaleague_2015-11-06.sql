@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.26)
 # Database: thenovaleague
-# Generation Time: 2015-11-06 05:38:44 +0000
+# Generation Time: 2015-11-06 14:42:23 +0000
 # ************************************************************
 
 
@@ -27,8 +27,8 @@ DROP TABLE IF EXISTS `cycle`;
 
 CREATE TABLE `cycle` (
   `cycle_id` int(11) NOT NULL AUTO_INCREMENT,
-  `start_time` date NOT NULL,
-  `end_time` date NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
   PRIMARY KEY (`cycle_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `game`;
 
 CREATE TABLE `game` (
   `game_id` int(11) NOT NULL AUTO_INCREMENT,
-  `game_date` date DEFAULT NULL,
+  `game_date` datetime DEFAULT NULL,
   `black` int(11) NOT NULL,
   `white` int(11) NOT NULL,
   `winner` int(11) DEFAULT NULL,
@@ -56,8 +56,8 @@ CREATE TABLE `game` (
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
-  `username` varchar(30) NOT NULL DEFAULT '',
-  `userpass` varchar(30) NOT NULL DEFAULT '',
+  `username` varchar(255) NOT NULL DEFAULT '',
+  `userpass` varchar(255) NOT NULL DEFAULT '',
   `ogs_userid` int(11) NOT NULL,
   `rating` double NOT NULL,
   `rank` varchar(5) NOT NULL DEFAULT '',
