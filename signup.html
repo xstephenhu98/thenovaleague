@@ -42,21 +42,22 @@
        <div class="panel panel-default col-md-3" style="margin: 0 auto">
        <form name="signup" role="form" action="signup.php" method="post">
                  
+                 <span class="alert-1"></span>
                  <div class="input-group" style="width:100%;">
-                 <input type="text" class="form-control" name="username" id="username" value="" placeholder="Username">                                        
+                 <input type="text" class="form-control" name="username" id="username" value="" placeholder="Username" onblur="checkUsername()">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password">                                        
+                 <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" onblur="checkPassword()">                                        
                  </div>
 
                  <div class="input-group" style="width:100%;">
-                 <input type="password" class="form-control" name="password-repeat" id="password-repeat" value="" placeholder="Repeat Password">                                      
+                 <input type="password" class="form-control" name="password-repeat" id="password-repeat" value="" placeholder="Repeat Password" onblur="checkPasswordRepeat()">                                      
                  </div>
                  <br>
                  <span class="ogs-userid-alert"></span>
                  <div class="input-group">
-                  <input type="text" class="form-control" name="ogs-userid" id="ogs-userid" placeholder="Your OGS User ID" aria-describedby="ogs-import">
+                  <input type="text" class="form-control" name="ogs-userid" id="ogs-userid" placeholder="Your OGS User ID" aria-describedby="ogs-import" onblur="checkID()">
                   <span class="input-group-btn"><button type="button" class="btn btn-success" id="ogs-import" data-toggle="tooltip" data-placement="right" title="" data-original-title="Import" onclick="fetchRank()"><i class="glyphicon glyphicon-import"></i></button></span>
 
 
@@ -76,7 +77,7 @@
                  <textarea type="text" class="form-control" name="about" id="about" value="" rows="5" placeholder="About yourself..."></textarea>                                        
                  </div>
 
-                 <button type="submit" class="btn btn-primary" style="width:100%;">SIGN UP</button>
+                 <button type="submit" class="btn btn-primary" style="width:100%;" name="submit" value="Submit">SIGN UP</button>
              </form>
          </div>
         
@@ -95,10 +96,82 @@
 </body>
 
 <script type="text/javascript">
+
+var c_username = 0;
+var c_password_entered = 0;
+var c_password_length = 0;
+var c_password_repeat_entered = 0;
+var c_password_check = 0;
+var c_ogs = 0;
+var c_id = 0;
+
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     
 });
+
+function checkUsername(){
+  var username = document.getElementById("username").value;
+  if (username == ""){
+    c_username++;
+    if (c_username < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  You have not chosen a username!</strong></div>").insertAfter('.alert-1');
+    }
+
+  }
+
+}
+
+function checkPassword(){
+  var password = document.getElementById("password").value;
+
+  if (password == ""){
+    c_password_entered++;
+    if (c_password_entered < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  You have not chosen a password!</strong></div>").insertAfter('.alert-1');
+    }
+  }
+
+  if (password.length < 6 || password.length > 30){
+    c_password_length++;
+    if (c_password_length < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  Password must be between 6 and 30 characters!</strong></div>").insertAfter('.alert-1');
+    }
+  }
+
+}
+
+function checkPasswordRepeat(){
+  var password_repeat = document.getElementById("password-repeat").value;
+
+  if (password_repeat == ""){
+    c_password_repeat_entered++;
+    if (c_password_repeat_entered < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  You have not retyped the password!</strong></div>").insertAfter('.alert-1');
+    }
+  }
+
+  if (password_repeat !== document.getElementById("password")){
+    c_password_match++;
+    if (c_password_match < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  The passwords don't match!").insertAfter('.alert-1');
+    }
+  }
+
+}
+
+function checkID(){
+  var id = document.getElementById("ogs-userid").value;
+  if (id == ""){
+    c_ogs++;
+    if (c_ogs < 2){
+    $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  You have not entered an OGS ID!</strong></div>").insertAfter('.alert-1');
+    }
+
+  }
+
+}
+
 
 function fetchRank(){
   var head = "https://online-go.com/api/v1/players/";
@@ -109,12 +182,17 @@ function fetchRank(){
   xmlHTTP.open("GET", theURL, false);
     xmlHTTP.send(null);
     
-        if (xmlHTTP.status === 404) {  
-
+        if (xmlHTTP.status === 404) {
+          c_id++;  
+          if (c_id < 2) {
             $("<div class='alert alert-dismissible alert-danger'><button type='button' class='close' data-dismiss='alert'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>  User ID not found!</strong></div>").insertAfter('.ogs-userid-alert');
+            
+          }
+
             document.getElementById("ogs-userid").value = "";
             
         }
+
     var r = JSON.parse(xmlHTTP.responseText);
 
     var rank = "";
