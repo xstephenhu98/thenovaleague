@@ -48,7 +48,8 @@
 		$password = $_POST['password'];
 		$password_repeat = $_POST['password-repeat'];
 		$ogs_userid = $_POST['ogs-userid'];
-		
+		$rating = $_POST['rating'];
+		$rank = $_POST['rank'];
 		$about = $_POST['about'];
 
         
@@ -61,6 +62,7 @@
 		if(empty($password_repeat)) {
 			$errorMessage .= "password-repeat";
 		}
+		
 		if(empty($ogs_userid)) {
 			$errorMessage .= "ogs-userid";
 		}
@@ -73,7 +75,7 @@
 			mysql_select_db("thenovaleague" ,$db);
 			$sql = "INSERT INTO user (username, userpass, ogs_userid, rating, rank, about) VALUES (".
 			PrepSQL($username) . ", " .
-			PrepSQL($userpass) . ", " .
+			PrepSQL($password) . ", " .
 			PrepSQL($ogs_userid) . ", " .
 			PrepSQL($rating) . ", " .
 			PrepSQL($rank) . ", " .
