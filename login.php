@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
@@ -24,10 +23,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           
-        <ul class="nav navbar-nav navbar-right">
-            <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="index.html">BACK TO HOME</a></div></li>
+           <ul class="nav navbar-nav navbar-right">
+            <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="signup.html">SIGN UP</a></div></li>
         
           </ul>
+          <form name="login" class="navbar-form navbar-right" role="form" action="login.php" method="post">
+                <div class="input-group input-group-sm">
+                
+                <input type="text" class="form-control" name="username" value="" placeholder="Username">                                        
+                </div>
+                <div class="input-group input-group-sm">
+                
+                <input type="password" class="form-control" name="password" value="" placeholder="Password">                                        
+                </div>
+
+                <button type="submit" class="btn btn-default btn-sm navbar-btn" name="submit" value="Submit" href="#">LOGIN</button>
+            </form>
+     
           
         </div><!--/.nav-collapse -->
       </div>
@@ -36,37 +48,31 @@
   
 
   <div class="container theme-showcase" role="main">
-      <div class="jumbotron">
       
- 
+
 <?php
     if(isset($_POST['submit'])) {
-		
+		session_start();
 		$errorMessage = "";
-		$is_available = true;
 
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-		$password_repeat = $_POST['password-repeat'];
-		$ogs_userid = $_POST['ogs-userid'];
-		$rating = $_POST['rating'];
-		$rank = $_POST['rank'];
-		$about = $_POST['about'];
-
         
 		if(empty($username)) {
 			$errorMessage .= "username";
+			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oops!</strong> You forgot to enter the username!
+				</div>";
 		}
 		if(empty($password)) {
 			$errorMessage .= "password";
-		}
-		if(empty($password_repeat)) {
-			$errorMessage .= "password-repeat";
+			echo "<div class='alert alert-dismissible alert-danger'>
+  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+  				<strong> Oops!</strong> You forgot to enter the password.
+				</div>";
 		}
 		
-		if(empty($ogs_userid)) {
-			$errorMessage .= "ogs-userid";
-		}
 		
 
 		
@@ -74,50 +80,28 @@
 			$db = mysql_connect("localhost","root",""); //connect to database
 			if(!$db) die("Error connecting to MySQL database.");
 			mysql_select_db("thenovaleague" ,$db);
-			$username_check = "SELECT * FROM user WHERE username=".
-		      PrepSQL($username);
-		      
-		    $rs = mysql_query($username_check);
-		    $num = mysql_num_rows($rs);
-		 
-		    if($num == 1) {
-		      $is_available = false;
-		      echo "<div class='alert alert-dismissible alert-danger'>
-  				<button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
-  				<strong> Oops!</strong> Username has been taken.
-				</div>";
-			  echo "<a href='signup.html' class='btn btn-primary' role='button'>TRY AGAIN</a>";
-			  exit();
-		    }
-
-		    if($num == 0) {
-			$sql = "INSERT INTO user (username, userpass, ogs_userid, rating, rank, about) VALUES (".
-			PrepSQL($username) . ", " .
-			PrepSQL($password) . ", " .
-			PrepSQL($ogs_userid) . ", " .
-			PrepSQL($rating) . ", " .
-			PrepSQL($rank) . ", " .
-			PrepSQL($about) .")";
-			mysql_query($sql);
 			
+			$sql = "SELECT * FROM user WHERE username=".
+			PrepSQL($username) . " AND userpass=" .
+			PrepSQL($password);
+			$query = mysql_query($sql);
+			$rows = mysql_num_rows($query);
+			
+			if ($rows == 1) {
+				$_SESSION['login_user']=$username; // Initializing Session
+				header("location: profile.php");
 		      
-
-			echo "<div class='alert alert-dismissible alert-success'>
-  <button type='butto' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-ok-sign' aria-hidden='true'></span>
-  <strong> Yay!</strong> Sign up successful!
-		</div>";
-
-		
 			exit();
-			}
+				
 		} else {
             echo "<div class='alert alert-dismissible alert-danger'>
   <button type='button' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
-  <strong> Oh snap!</strong> There has been a failure.
+  <strong> Oh snap!</strong> Username and password don't match or exist.
 </div>";
-	echo "<a href='signup.html' class='btn btn-primary' role='button'>TRY AGAIN</a>";
+	echo "<a href='index.html' class='btn btn-primary' role='button'>TRY AGAIN</a>";
 
         }
+    }
 
 	}
 	
@@ -141,15 +125,3 @@
 
 
 ?>
-</div>
-
-  
-  <!-- Optional theme -->
-
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
-</body>
-</html>
