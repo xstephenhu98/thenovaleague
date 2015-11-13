@@ -64,7 +64,7 @@
   </thead>
   <tbody>
     <?php
-      $status = 0;
+      
       $db = mysql_connect("localhost","root",""); //connect to database
       if(!$db) die("Error connecting to MySQL database.");
       mysql_select_db("thenovaleague" ,$db);
@@ -76,8 +76,13 @@
           $row['description']."</td><td>".
           $row['start_time']."</td><td>".
           $row['end_time']."</td><td>");
-        echo("<button value='join' class='btn btn-success btn-xs'>JOIN</button></td></tr>");
+        echo("<button name='join' id='join' class='btn btn-success btn-xs'>JOIN</button></td></tr>");
         
+      }
+
+      function status(){
+        $status = 0;
+        if(isset($_GET['join']));
       }
     ?>
   </tbody>

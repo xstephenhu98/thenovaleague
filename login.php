@@ -1,4 +1,5 @@
 <?php
+	
     if(isset($_POST['submit'])) {
 		
 		$errorMessage = "";
@@ -31,9 +32,13 @@
 			
 			if ($rows == 1) {
 				$cookie_name = $username;
-				$cookie_value = $password;
-				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
-				header("location: profile.php");
+				
+				setcookie($cookie_name, time() + (86400 * 30), "/");
+
+				echo($cookie_name);
+         		
+
+				header('Refresh: 3;url=profile.php');
 		      
 			exit();
 				
