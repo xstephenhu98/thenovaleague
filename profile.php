@@ -1,6 +1,16 @@
+<?php include 'login.php';
 
+function returnUsername() {
+  if(!isset($_COOKIE[$test])) {
+              echo "Cookie named '" . $test . "' is not set!";
+        } else {
+              echo "Cookie '" . $test . "' is set!<br>";
+              echo "Value is: " . $_COOKIE[$test];
+        }
+}
+?>
 
-<!DOCTYPE HTML>
+<!DOCTYPE HTML5>
 
 
 
@@ -29,7 +39,9 @@
           
            <ul class="nav navbar-nav navbar-right">
             
-            <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="#">HELLO</a></div></li>
+            <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="#">
+              <?php echo returnUsername(); ?>
+        </a></div></li>
             <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="#"><span class="glyphicon glyphicon-log-out"></span></a></div></li>
           </ul>
           

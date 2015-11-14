@@ -76,13 +76,20 @@
           $row['description']."</td><td>".
           $row['start_time']."</td><td>".
           $row['end_time']."</td><td>");
-        echo("<button name='join' id='join' class='btn btn-success btn-xs'>JOIN</button></td></tr>");
-        
+        if (join_status() == 0)
+        echo("<button name='join' id='join' class='btn btn-success btn-xs' onclick='join_status()'>JOIN</button></td></tr>");
+        if (join_status() == 1)
+        echo("<button name='join' id='join' class='btn btn-success btn-xs onclick='join_status()'>JOIN</button></td></tr>");
       }
 
-      function status(){
+      function join_status(){
         $status = 0;
-        if(isset($_GET['join']));
+        if(isset($_GET['join'])){
+          $status = 1;
+        };
+        if(isset($_GET['leave'])){
+          $status = -1;
+        }
       }
     ?>
   </tbody>
