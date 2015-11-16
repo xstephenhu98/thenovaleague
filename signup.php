@@ -20,12 +20,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">The Nova League</span></a>
+          <a class="navbar-brand" href="index.php">The Nova League</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           
         <ul class="nav navbar-nav navbar-right">
-            <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="index.html">BACK TO HOME</a></div></li>
+            <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="index.php">BACK TO HOME</a></div></li>
         
           </ul>
           

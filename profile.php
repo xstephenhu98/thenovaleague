@@ -1,19 +1,11 @@
-<?php include 'login.php';
 
-function returnUsername() {
-  if(!isset($_COOKIE[$test])) {
-              echo "Cookie named '" . $test . "' is not set!";
-        } else {
-              echo "Cookie '" . $test . "' is set!<br>";
-              echo "Value is: " . $_COOKIE[$test];
-        }
-}
+
+<!DOCTYPE HTML>
+
+
+<?php
+  
 ?>
-
-<!DOCTYPE HTML5>
-
-
-
 <html>
 <head>
   <title>The Nova League</title>
@@ -33,14 +25,16 @@ function returnUsername() {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">The Nova League</span></a>
+          <a class="navbar-brand" href="index.php">The Nova League</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           
            <ul class="nav navbar-nav navbar-right">
             
             <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="#">
-              <?php echo returnUsername(); ?>
+              HELLO, <?php 
+                echo $_COOKIE['user'];
+              ?>
         </a></div></li>
             <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="#"><span class="glyphicon glyphicon-log-out"></span></a></div></li>
           </ul>

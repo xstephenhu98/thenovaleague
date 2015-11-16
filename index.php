@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 
 <html>
@@ -30,11 +31,11 @@
           <form name="login" class="navbar-form navbar-right" role="form" action="login.php" method="post">
                 <div class="input-group input-group-sm">
                 
-                <input type="text" class="form-control" name="username" value="" placeholder="Username">                                        
+                <input type="text" class="form-control" name="username" id="username" value="" placeholder="Username">                                        
                 </div>
                 <div class="input-group input-group-sm">
                 
-                <input type="password" class="form-control" name="password" value="" placeholder="Password">                                        
+                <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password">                                        
                 </div>
 
                 <button type="submit" class="btn btn-default btn-sm navbar-btn" name="submit" value="Submit" href="#">LOGIN</button>

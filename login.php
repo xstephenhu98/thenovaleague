@@ -1,7 +1,5 @@
 <?php
-	
-    if(isset($_POST['submit'])) {
-		
+	if(isset($_POST['submit'])) {
 		$errorMessage = "";
 
 		$username = $_POST['username'];
@@ -9,11 +7,11 @@
         
 		if(empty($username)) {
 			$errorMessage .= "username";
-			header("location: index.html");
+			header("location: index.php");
 		}
 		if(empty($password)) {
 			$errorMessage .= "password";
-			header("location: index.html");
+			header("location: index.php");
 		}
 		
 		
@@ -31,30 +29,38 @@
 			$rows = mysql_num_rows($query);
 			
 			if ($rows == 1) {
-				$cookie_name = $username;
 				
-				setcookie($cookie_name, time() + (86400 * 30), "/");
+	
+				$cookie_name = "user";
+				$cookie_value = $username;
+				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 
+
+
+				$date = date('Y-m-d H:i:s');
+				$datetostring = "'" . date('Y-m-d H:i:s') . "'";
+				$expiry = "'" . date('Y-m-d H:i:s', strtotime( "$date + 30 day" )) . "'";
+				$add_login = "INSERT INTO login (username,starttime,expiretime) VALUES (".
+					PrepSQL($username) . ", " .
+					$datetostring . ", " . 
+					$expiry . ")";
 				
-         		
-				      if(!isset($_COOKIE[$cookie_name])) {
-				      echo "Cookie named '" . $cookie_name . "' is not set!";
-				} else {
-				      echo "Cookie '" . $cookie_name . "' is set!<br>";
-				      echo "Value is: " . $_COOKIE[$cookie_name];
+				$login_exists = "SELECT * FROM login WHERE username=" . PrepSQL($username) . " AND expiretime > " . $datetostring;
+		
+				if (mysql_num_rows(mysql_query($login_exists)) < 1) {
+					mysql_query($add_login);
 				}
 
-				header('Refresh: 3;url=profile.php');
+				header('refresh:3; url=profile.php');
 		      
-			exit();
 				
 		} else {
-            header("location: index.html");
+            header("location: index.php");
 
         }
     }
-
 	}
+
 	
 	// function: PrepSQL()
 	// use stripslashes and mysql_real_escape_string PHP functions
@@ -73,6 +79,6 @@
 		return($value);
 	}
 
-
+	
 
 ?>
