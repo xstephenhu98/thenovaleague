@@ -35,23 +35,7 @@
 				$cookie_value = $username;
 				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 
-
-
-				$date = date('Y-m-d H:i:s');
-				$datetostring = "'" . date('Y-m-d H:i:s') . "'";
-				$expiry = "'" . date('Y-m-d H:i:s', strtotime( "$date + 30 day" )) . "'";
-				$add_login = "INSERT INTO login (username,starttime,expiretime) VALUES (".
-					PrepSQL($username) . ", " .
-					$datetostring . ", " . 
-					$expiry . ")";
-				
-				$login_exists = "SELECT * FROM login WHERE username=" . PrepSQL($username) . " AND expiretime > " . $datetostring;
-		
-				if (mysql_num_rows(mysql_query($login_exists)) < 1) {
-					mysql_query($add_login);
-				}
-
-				header('refresh:3; url=profile.php');
+				header("location: profile.php");
 		      
 				
 		} else {

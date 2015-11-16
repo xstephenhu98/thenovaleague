@@ -32,11 +32,15 @@
            <ul class="nav navbar-nav navbar-right">
             
             <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="#">
-              HELLO, <?php 
+              <?php 
                 echo $_COOKIE['user'];
               ?>
         </a></div></li>
-            <li><div class="btn-nav"><a type="button" class="btn btn-default btn-sm navbar-btn" href="#"><span class="glyphicon glyphicon-log-out"></span></a></div></li>
+
+              <li><div class="btn-nav">
+                <form action="logout.php" method="post"><button name="logout" value="logout" class="btn btn-default btn-sm navbar-btn" ><span class="glyphicon glyphicon-log-out"></span></button></form>
+              </div></li>
+
           </ul>
           
      
@@ -82,8 +86,20 @@
           $row['description']."</td><td>".
           $row['start_time']."</td><td>".
           $row['end_time']."</td><td>");
-        echo("<button value='join' class='btn btn-success btn-xs'>JOIN</button></td></tr>");
+      $status = mysql_query("SELECT * FROM enrollment WHERE username =" . "'" . $_COOKIE['user'] . "' AND cycle_id=" . $row['cycle_id']);
+        if(mysql_num_rows($status) < 1) {
+        echo("<form action='' method='post'><button value='join' name='join' class='btn btn-success btn-xs'>JOIN</button></form></td></tr>");
         
+        if(isset($_POST['join'])){
+          mysql_query("INSERT INTO enrollment (username, cycle_id) VALUES (" . "'" . $_COOKIE['user'] . "', " . $row['cycle_id'] . ")");
+        }
+
+        } else {
+          echo("<form action='' method='post'><button value='leave' name='leave' class='btn btn-danger btn-xs'>LEAVE</button></form></td></tr>");
+          if(isset($_POST['leave'])){
+          mysql_query("DELETE FROM enrollment WHERE username = " . "'" . $_COOKIE['user'] . "' AND cycle_id = " . $row['cycle_id']);
+          }
+        }
       }
     ?>
   </tbody>
