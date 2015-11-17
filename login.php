@@ -33,8 +33,8 @@
 	
 				$cookie_name = "user";
 				$cookie_value = $username;
-				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
-
+				setcookie($cookie_name, $_COOKIE[$cookie_name] = $cookie_value, time() + (86400 * 30), "/");
+				
 				header("location: profile.php");
 		      
 				
