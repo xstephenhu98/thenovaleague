@@ -104,10 +104,10 @@
 
 			echo "<div class='alert alert-dismissible alert-success'>
   <button type='butto' class='close' data-dismiss='alert'>×</button><span class='glyphicon glyphicon-ok-sign' aria-hidden='true'></span>
-  <strong> Yay!</strong> Sign up successful!
+  <strong> Yay!</strong> Sign up successful! You'll be redirected to the homepage in 3 seconds.
 		</div>";
 
-		
+		header('Refresh:3; url=index.php');
 			exit();
 			}
 		} else {

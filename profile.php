@@ -123,9 +123,10 @@
      <table class="table table-striped table-hover ">
         <thead>
         <tr>
-        <th>#</th>
         <th>Username</th>
         <th>Rating</th>
+        <th>Rank</th>
+        <th>Game (if applicable)</th>
       </tr>
       </thead>
       <tbody>
@@ -134,13 +135,27 @@
           if(!$db) die("Error connecting to MySQL database.");
           mysql_select_db("thenovaleague" ,$db);
 
-        $result = mysql_query("SELECT E.username, U.rating, U.rank FROM enrollment E, user U WHERE U.username = E.username");
-        while($row= mysql_fetch_array($result)){
-        echo("<tr><td>".
-          $row['username']."</td><td>".
-          $row['rating']."</td><td>".
-          $row['rank']."</td><td>");
+
+        $active_cycle = mysql_query("SELECT * FROM cycle C WHERE C.start_time < now() AND C.end_time > now()");
+        if (mysql_num_rows($active_cycle) > 0) {
+          while($active_cycle_row= mysql_fetch_array($active_cycle)){
+          
+          
+          $a = $active_cycle_row['cycle_id'];
+
+          $sort = "SELECT E.username, U.rating, U.rank FROM enrollment E, user U WHERE U.username = E.username AND E.cycle_id = " . $a . " ORDER BY rating DESC";
+          $rank_sort = mysql_query($sort);
+          
+          while($sort_row= mysql_fetch_array($rank_sort)){
+
+
+          echo("<tr><td>".
+            $sort_row['username']."</td><td>".
+            $sort_row['rating']."</td><td>".
+            $sort_row['rank']."</td><td>");
+          }
         }
+      }
         ?>
       </tbody>
     </table>
