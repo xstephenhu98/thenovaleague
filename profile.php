@@ -113,12 +113,12 @@
 
   <div id="menu1" class="tab-pane fade">
     <h3>Games</h3>
-            <form action="" method="post">
+            <!-- <form action="" method="post">
             <input id="TheCheckBox" name="status" type="checkbox" data-off-text="Leave" data-on-text="Join" checked="false" class="switch">
         <label>This Switch is Set to
             <label id="CheckBoxValue" value="None"></label>
         </label>
-      </form>
+      </form> -->
 
      <table class="table table-striped table-hover ">
         <thead>
@@ -146,13 +146,39 @@
           $sort = "SELECT E.username, U.rating, U.rank FROM enrollment E, user U WHERE U.username = E.username AND E.cycle_id = " . $a . " ORDER BY rating DESC";
           $rank_sort = mysql_query($sort);
           
+         
+
           while($sort_row= mysql_fetch_array($rank_sort)){
+            $find_my_rating = "SELECT U.rating FROM enrollment E, user U WHERE U.username = E.username AND U.username = '" . $_COOKIE['user'] . "' AND E.cycle_id = " . $a;
+          
+            $my_rating = mysql_fetch_array(mysql_query($find_my_rating))['rating'];
 
+            $find_neighbors = "(SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating > " . $my_rating . " ORDER BY rating ASC LIMIT 2) UNION 
+                (SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating < " . $my_rating . " ORDER BY rating DESC LIMIT 2)";
+            $arr = array();
 
-          echo("<tr><td>".
-            $sort_row['username']."</td><td>".
-            $sort_row['rating']."</td><td>".
-            $sort_row['rank']."</td><td>");
+            $neighbors = mysql_query($find_neighbors);
+            while($neighbornames = mysql_fetch_array($neighbors)){
+              array_push($arr,$neighbornames['username']);
+            } 
+            
+            echo("<tr");
+            if ($sort_row['username'] == $_COOKIE['user']){
+                echo(" class='info'><td>".
+                $sort_row['username']."</td><td>".
+                $sort_row['rating']."</td><td>".
+                $sort_row['rank']."</td><td></td></tr>");
+            } 
+            
+            else for ($i = 0; $i < sizeof($arr); $i++) {
+              if ($sort_row['username'] == $arr[$i]) {
+                echo(" class='warning'><td>".
+                $sort_row['username']."</td><td>".
+                $sort_row['rating']."</td><td>".
+                $sort_row['rank']."</td><td></td></tr>");
+              }
+            }
+            
           }
         }
       }
