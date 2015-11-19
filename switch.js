@@ -16,3 +16,8 @@ $('.probeProbe').on('switchChange.bootstrapSwitch', function (event, state) {
     alert(event);
     alert(state);
 });
+
+
+$('#schedule-0').on('click', function() {
+    $('#scheduleModal').modal('toggle');
+}); 

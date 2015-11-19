@@ -156,28 +156,47 @@
             $find_neighbors = "(SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating > " . $my_rating . " ORDER BY rating ASC LIMIT 2) UNION 
                 (SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating < " . $my_rating . " ORDER BY rating DESC LIMIT 2)";
             $arr = array();
+            $opponents = array();
 
             $neighbors = mysql_query($find_neighbors);
             while($neighbornames = mysql_fetch_array($neighbors)){
               array_push($arr,$neighbornames['username']);
             } 
             
-            echo("<tr");
             if ($sort_row['username'] == $_COOKIE['user']){
-                echo(" class='info'><td>".
+                echo("<tr class='info'><td>".
                 $sort_row['username']."</td><td>".
                 $sort_row['rating']."</td><td>".
                 $sort_row['rank']."</td><td></td></tr>");
             } 
             
-            else for ($i = 0; $i < sizeof($arr); $i++) {
-              if ($sort_row['username'] == $arr[$i]) {
-                echo(" class='warning'><td>".
+            for ($i = 0; $i < sizeof($arr); $i++) {
+              if ($sort_row['username'] != $_COOKIE['user'] && $sort_row['username'] == $arr[$i]) {
+                echo("<tr class='warning'><td>".
                 $sort_row['username']."</td><td>".
                 $sort_row['rating']."</td><td>".
-                $sort_row['rank']."</td><td></td></tr>");
+                $sort_row['rank']."</td><td><a role='button' value='schedule' name='schedule-" . $i . "' class='btn btn-success btn-xs' data-toggle='modal' data-target='#scheduleModal-" . $i . "'>SCHEDULE</a></td></tr>");
+                
+                echo('<div class="modal fade" id="scheduleModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel-' . $i . '">Schedule Game with ' . $sort_row['username'] . '</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>');
+
               }
             }
+              
+            
             
           }
         }
