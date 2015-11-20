@@ -29,7 +29,7 @@
 			$rows = mysql_num_rows($query);
 			
 			if ($rows == 1) {
-				
+				//initialize cookie
 	
 				$cookie_name = "user";
 				$cookie_value = $username;

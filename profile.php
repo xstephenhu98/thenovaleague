@@ -33,7 +33,7 @@
             
             <li><div class="btn-nav"><a type="button" class="btn btn-primary btn-sm navbar-btn" href="#">
               <?php 
-                echo $_COOKIE['user'];
+                echo $_COOKIE['user']; //uses cookies to track login
               ?>
         </a></div></li>
 
@@ -78,7 +78,7 @@
       if(!$db) die("Error connecting to MySQL database.");
       mysql_select_db("thenovaleague" ,$db);
       
-      $result = mysql_query("SELECT * FROM cycle");
+      $result = mysql_query("SELECT * FROM cycle"); //show list of league cycles
       while($row= mysql_fetch_array($result)){
         echo("<tr><td>".
           $row['cycle_id']."</td><td>".
@@ -110,14 +110,14 @@
 
   <div id="menu1" class="tab-pane fade">
     <h3>Games</h3>
-            <!-- <form action="" method="post">
+            <!-- <form action="" method="post"> //Experimental code
             <input id="TheCheckBox" name="status" type="checkbox" data-off-text="Leave" data-on-text="Join" checked="false" class="switch">
         <label>This Switch is Set to
             <label id="CheckBoxValue" value="None"></label>
         </label>
       </form> -->
-
-     <table class="table table-striped table-hover ">
+    <!-- Returns a table of the player's opponents-->
+     <table class="table table-striped table-hover "> 
         <thead>
         <tr>
         <th>Username</th>
@@ -132,14 +132,14 @@
           if(!$db) die("Error connecting to MySQL database.");
           mysql_select_db("thenovaleague" ,$db);
 
-
+        //validate cycle
         $active_cycle = mysql_query("SELECT * FROM cycle C WHERE C.start_time < now() AND C.end_time > now()");
         if (mysql_num_rows($active_cycle) > 0) {
           while($active_cycle_row= mysql_fetch_array($active_cycle)){
           
           
           $a = $active_cycle_row['cycle_id'];
-
+          //validate enrollments and sort
           $sort = "SELECT E.username, U.rating, U.rank FROM enrollment E, user U WHERE U.username = E.username AND E.cycle_id = " . $a . " ORDER BY rating DESC";
           $rank_sort = mysql_query($sort);
           
@@ -149,7 +149,7 @@
             $find_my_rating = "SELECT U.rating FROM enrollment E, user U WHERE U.username = E.username AND U.username = '" . $_COOKIE['user'] . "' AND E.cycle_id = " . $a;
           
             $my_rating = mysql_fetch_array(mysql_query($find_my_rating))['rating'];
-
+            //pairing system; pairs player up with others closes to his rating
             $find_neighbors = "(SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating > " . $my_rating . " ORDER BY rating ASC LIMIT 2) UNION 
                 (SELECT E.username FROM enrollment E, user U WHERE U.username = E.username AND U.rating < " . $my_rating . " ORDER BY rating DESC LIMIT 2)";
             $arr = array();
@@ -177,7 +177,7 @@
                 
                 $game_exists = "SELECT * FROM game WHERE (player1 = '" . $_COOKIE['user'] . "' AND player2 = '" . $sort_row['username'] . "') OR (player1 = '" . $sort_row['username'] . "' AND player2 = '" . $_COOKIE['user'] . "')";
                 
-                
+                //schedule modal
                 if (mysql_num_rows(mysql_query($game_exists)) < 1) {
                 echo "<a role='button' value='schedule' name='schedule-" . $i . "' class='btn btn-success btn-xs' data-toggle='modal' data-target='#scheduleModal-" . $i . "'>SCHEDULE</a>";
                 echo('<div class="modal fade" id="scheduleModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myScheduleLabel">
@@ -214,7 +214,7 @@
               }
 
               }
-              else {
+              else { //report modal
                 echo "<a role='button' name='scheduled-" . $i . "' class='btn btn-danger btn-xs'>SCHEDULED</a>";
                 echo "<a role='button' value='report' name='report-" . $i . "' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#reportModal-" . $i . "'>REPORT</a>";
                 echo('<div class="modal fade" id="reportModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myReportLabel">

@@ -1,4 +1,5 @@
-$('.switch').bootstrapSwitch('state', false);
+//Experimental code for switch mode
+/* $('.switch').bootstrapSwitch('state', false);
 
 
 $('#CheckBoxValue').text($("#TheCheckBox").bootstrapSwitch('state'));
@@ -17,6 +18,7 @@ $('.probeProbe').on('switchChange.bootstrapSwitch', function (event, state) {
     alert(state);
 });
 
+*/
 
 $('#schedule-0').on('click', function() {
     $('#scheduleModal').modal('toggle');
