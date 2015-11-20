@@ -3,9 +3,6 @@
 <!DOCTYPE HTML>
 
 
-<?php
-  
-?>
 <html>
 <head>
   <title>The Nova League</title>
@@ -172,32 +169,98 @@
             
             for ($i = 0; $i < sizeof($arr); $i++) {
               if ($sort_row['username'] != $_COOKIE['user'] && $sort_row['username'] == $arr[$i]) {
-                echo("<tr class='warning'><td>".
+                echo("<tr class='active'><td>".
                 $sort_row['username']."</td><td>".
                 $sort_row['rating']."</td><td>".
-                $sort_row['rank']."</td><td><a role='button' value='schedule' name='schedule-" . $i . "' class='btn btn-success btn-xs' data-toggle='modal' data-target='#scheduleModal-" . $i . "'>SCHEDULE</a></td></tr>");
+                $sort_row['rank']."</td><td>");
                 
-                echo('<div class="modal fade" id="scheduleModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                
+                $game_exists = "SELECT * FROM game WHERE (player1 = '" . $_COOKIE['user'] . "' AND player2 = '" . $sort_row['username'] . "') OR (player1 = '" . $sort_row['username'] . "' AND player2 = '" . $_COOKIE['user'] . "')";
+                
+                
+                if (mysql_num_rows(mysql_query($game_exists)) < 1) {
+                echo "<a role='button' value='schedule' name='schedule-" . $i . "' class='btn btn-success btn-xs' data-toggle='modal' data-target='#scheduleModal-" . $i . "'>SCHEDULE</a>";
+                echo('<div class="modal fade" id="scheduleModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myScheduleLabel">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="myModalLabel-' . $i . '">Schedule Game with ' . $sort_row['username'] . '</h4>
+                      <h4 class="modal-title" id="myScheduleLabel-' . $i . '">Schedule Game with ' . $sort_row['username'] . '</h4>
                     </div>
-                    <div class="modal-body"></div>
+                    <div class="modal-body">
+                    <form name="schedule" role="form" action="" method="post">
+                 
+                   
+                   <div class="input-group">
+                   <input type="text" class="form-control" name="scheduletime-' . $i . '" id="scheduletime" value="" placeholder="yyyy-mm-dd hh:mm">                                        
+                   </div>
+                   
+             
+                    </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                      <button name="scheduleSubmit-' . $i . '" type="submit" class="btn btn-primary">Schedule</button></form>
                     </div>
                   </div>
                 </div>
               </div>');
+              if(isset($_POST['scheduleSubmit-' . $i])){
+                if(!empty($_POST['scheduletime-' . $i])) {
+                $addGame = "INSERT INTO game (game_date, player1, player2) VALUES ('" . $_POST['scheduletime-' . $i].
+                        "', '" . $_COOKIE['user'] .
+                        "', '" . $sort_row['username'] . "')";
+                mysql_query($addGame);
+                }
+              }
 
+              }
+              else {
+                echo "<a role='button' name='scheduled-" . $i . "' class='btn btn-danger btn-xs'>SCHEDULED</a>";
+                echo "<a role='button' value='report' name='report-" . $i . "' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#reportModal-" . $i . "'>REPORT</a>";
+                echo('<div class="modal fade" id="reportModal-' . $i . '" tabindex="-1" role="dialog" aria-labelledby="myReportLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myReportLabel-' . $i . '">Results of game with ' . $sort_row['username'] . '</h4>
+                    </div>
+                    <div class="modal-body">
+                    <form name="report" role="form" action="" method="post">
+                    <label for="select_winner" class="col-lg-6 control-label">Who won the game?</label>
+                   <select class="form-control" name="select_winner-' . $i . '" id="select_winner">
+                      <option>' . $_COOKIE['user'] . '</option>
+                      <option>' . $sort_row['username'] . '</option>
+                  </select><br>
+
+                   <div class="input-group">
+                   <input type="url" class="form-control" name="url-' . $i . '" id="gameurl" value="" placeholder="Enter the URL of the game" >                                        
+                   </div>
+                   
+             
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button name="reportSubmit-' . $i . '" type="submit" class="btn btn-primary">Report</button></form>
+                    </div>
+                  </div>
+                </div>
+              </div>');
+              }
+              
+
+              if(isset($_POST['reportSubmit-' . $i])){
+                if(!empty($_POST['select_winner-' . $i]) && !empty($_POST['url-' . $i])) {
+                $addReport = "UPDATE game SET winner = '" . $_POST['select_winner-' . $i] . "', url='" . $_POST['url-' . $i] . 
+                "' WHERE (player1 = '" . $_COOKIE['user'] . "' AND player2 = '" . $sort_row['username'] . "') OR (player1 = '" . $sort_row['username'] . "' AND player2 = '" . $_COOKIE['user'] . "')";
+          
+                mysql_query($addReport);
+                }
+              }
               }
             }
               
             
-            
+          echo ("</td></tr>");  
           }
         }
       }
